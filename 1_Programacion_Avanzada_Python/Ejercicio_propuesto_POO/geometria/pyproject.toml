@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geometria"
+version = "0.0.1"
+requires-python = ">=3.10"
+readme = "enunciado.md"
+authors = [
+	{name = 'Joaquín Pérez', email = 'joaquinlevante@outlook.com'},
+]
+
+# Realizamos la indicación de las dependencias y las versiones necesarias
+dependencies = [ "typing >= 3.4", "pytest >= 7.2.1"]
+
+[tool.setuptools.packages.find]
+exclude = ["tests*"]  # Con esto excluimos los test a la hora de subir los resultados
