@@ -5,4 +5,8 @@ metadata:
   namespace: default
 data:
   config.properties: |-
-    port=8080
+    [DatabaseSection]
+    mongo.uri=mongodb://mongo:27017
+
+    [ServerSection]
+    server.port=48080

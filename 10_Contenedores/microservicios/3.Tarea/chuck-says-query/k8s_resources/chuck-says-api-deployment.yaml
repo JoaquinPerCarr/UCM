@@ -3,29 +3,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: chuck-says-api
-  name: chuck-says-api
+    app: chuck-says-query
+  name: chuck-says-query
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chuck-says-api
+      app: chuck-says-query
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: chuck-says-api
+        app: chuck-says-query
     spec:
       containers:
-        - name: chuck-says-api
-          image: ogomezso/chuck-says-api:0.0.1
+        - name: chuck-says-query
+          image: jpcarrasco96/chuck-says-query:latest  # Se emplea la imagen creada y subida a DockerHub.
           resources: {}
           volumeMounts:
             - name: app-config-volume
               mountPath: /config
       volumes:
         - name: app-config-volume
-          configMap:
-            name: chuck-says-api-config

@@ -4,15 +4,15 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: chuck-says-api
-  name: chuck-says-api
+    app: chuck-says-query
+  name: chuck-says-query
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 8081         # Puerto externo que expondrá el LoadBalancer.
       protocol: TCP
-      targetPort: 8080
+      targetPort: 48080  # Puerto donde la app escucha dentro del contenedor.
   selector:
-    app: chuck-says-api
+    app: chuck-says-query
 status:
   loadBalancer: {}
