@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: Facts API Microservice
+  description: API para obtener y filtrar datos de facts de Chuck Norris.
+  version: '1.0.0'
+
+servers:
+  - url: http://localhost:48080/
+    description: Servidor - Chuck Says Query - GET
+  - url: http://localhost:28080/
+    description: Servidor - Chuck Command - POST
+
+paths:
+  /:
+    get:
+      tags:
+        - FACTS
+      summary: Landing Page
+      responses:
+        '200':
+          description: Respuesta exitosa - Se muestra HTML
+        '404':
+          description: Error
+
+
+  /chuck-says:
+    post:
+      tags:
+        - FACTS
+      summary: Inserta un Fact mediante el empleo de Faker.
+      description: Nota -- Funciona pero no se asigna un Response 200 cuando se realiza el POST, desde PS sí,
+                   pero desde Swagger NO ocurre, simplemente se lanza correctamente.
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fact'
+        '400':
+          description: Error
+
+
+  /facts:
+    get:
+      tags:
+        - FACTS
+      summary: Obtener todos los facts
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fact'
+
+  /facts/{id}:
+    get:
+      tags:
+        - FACTS
+      summary: Obtener un fact por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+        '404':
+          description: Fact no encontrado
+
+  /facts/last3days:
+    get:
+      tags:
+        - FACTS
+      summary: Obtener facts de los últimos 3 días
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fact'
+
+  /facts/last3days/{id}:
+    get:
+      tags:
+        - FACTS
+      summary: Obtener un fact de los últimos 3 días por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+        '404':
+          description: Fact no encontrado
+
+  /facts/last3days/{date}:
+    get:
+      tags:
+        - FACTS
+      summary: Obtener facts de un día específico de los últimos 3 días
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fact'
+        '400':
+          description: Bad Request, Invalid date format
+        '404':
+          description: There aren't facts related to this date or the date is earlier than 3 days before the current day
+
+components:
+  schemas:
+    Fact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        timestamp:
+          type: integer
+          format: int64
+          example: 1622563200
+        fact:
+          type: string
+          example: 'This is a Chuck Norris fact'
